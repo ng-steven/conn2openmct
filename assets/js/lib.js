@@ -91,9 +91,13 @@ function connectToRealTime(method) {
         socket.onopen = function(e) {
             alert(`Connection to Server established. Request type: ${method}`);
             socket.send(method.toString()+' pwr.v');
+
             if (method === 'subscribe') {
                 $("table tbody").empty();
                 records = [];
+            }
+            else {
+                socket.disconnect() // socket.close()
             }
         };
 
@@ -106,9 +110,8 @@ function connectToRealTime(method) {
 
                 buildTable(JSON.parse(event.data));
             }
-            else if (method === 'unsubscribe') {
 
-            }
+
         };
 
         socket.onclose = function(event) {
